@@ -25,6 +25,7 @@ public class EnemyState : MonoBehaviour
     void Start()
     {
         // rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Dragon");
     }
 
     // Update is called once per frame

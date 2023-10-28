@@ -12,6 +12,7 @@ public class GolemFist : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.Find("Dragon");
     }
 
     // Update is called once per frame

@@ -7,9 +7,10 @@ public class Stalking : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject player;
+
     void Start()
     {
-        
+        player = GameObject.Find("Dragon");
     }
 
     // Update is called once per frame
@@ -17,6 +18,7 @@ public class Stalking : MonoBehaviour
     {
         LookAtPlayer();
     }
+
     public void LookAtPlayer()
     {
         var difference = player.transform.position - transform.position;

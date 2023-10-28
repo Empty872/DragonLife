@@ -62,10 +62,15 @@ public class DragonState : MonoBehaviour
     public GameObject fireball;
     public GameObject fireballPosition;
     public GameObject clawsAttackArea;
+    public Camera camera;
 
 
     void Start()
     {
+        // LevelUp(2);
+        // LevelUp(3);
+        // LevelUp(4);
+        // LevelUp(5);
     }
 
     // Update is called once per frame
@@ -434,6 +439,7 @@ public class DragonState : MonoBehaviour
             tail.transform.localScale = new Vector3(0.5f, 4, 1);
             fireballPosition.transform.localPosition = new Vector3(0, 3.3f, 0);
             attackTrigger = Animator.StringToHash("Attack3Trigger");
+            camera.orthographicSize = 6;
         }
 
         if (nextLevel == 4)
@@ -444,6 +450,7 @@ public class DragonState : MonoBehaviour
             gameObject.transform.localScale = new Vector3(1, 1, 0);
             tail.transform.localScale = new Vector3(1, 4, 1);
             fireball = (GameObject)Resources.Load("FireBreath");
+            camera.orthographicSize = 10;
         }
 
         if (nextLevel == 5)
