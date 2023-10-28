@@ -26,8 +26,10 @@ public class DragonState : MonoBehaviour
     public float moveStaminaCost;
     public float timeToAttack;
     public float timeToFireAttack;
+    public float timeToTailAttack;
     public float attackCooldown;
     public float fireAttackCooldown;
+    public float tailAttackCooldown;
     public float healthPointsRestore;
     public float staminaPointsRestore;
     public float manaPointsRestore;
@@ -54,6 +56,7 @@ public class DragonState : MonoBehaviour
     public int barLength = 400;
     public Animator anim;
     private static int attackTrigger = Animator.StringToHash("Attack1Trigger");
+    private static int tailAttackTrigger = Animator.StringToHash("TailAttackTrigger");
     private static int changeNeckPositionTrigger = Animator.StringToHash("ChangeNeckPositionTrigger1");
     public bool isSleeping;
     public GameObject fireball;
@@ -69,6 +72,7 @@ public class DragonState : MonoBehaviour
     void Update()
     {
         Attack();
+        TailAttack();
         FireAttack();
         if (timeToAttack > 0)
         {
@@ -78,6 +82,11 @@ public class DragonState : MonoBehaviour
         if (timeToFireAttack > 0)
         {
             timeToFireAttack -= Time.deltaTime;
+        }
+
+        if (timeToTailAttack > 0)
+        {
+            timeToTailAttack -= Time.deltaTime;
         }
 
         GetHungry(0.01f);
@@ -186,6 +195,13 @@ public class DragonState : MonoBehaviour
         return false;
     }
 
+    public bool CanTailAttack(float stamina)
+    {
+        if (staminaPoints - stamina >= 0 && timeToTailAttack <= 0 && !isSleeping && level >= 6)
+            return true;
+        return false;
+    }
+
     public bool CanFireAttack(float mana)
     {
         if (manaPoints - mana >= 0 && timeToFireAttack <= 0 && !isSleeping)
@@ -197,7 +213,7 @@ public class DragonState : MonoBehaviour
     {
         if (level <= 2)
         {
-            head.GetComponent<Bite>().canBite = true;
+            head.GetComponent<LimbAttack>().canDamage = true;
         }
         else
         {
@@ -206,11 +222,21 @@ public class DragonState : MonoBehaviour
         }
     }
 
+    public void StartTailAttack()
+    {
+        tail.GetComponent<LimbAttack>().canDamage = true;
+    }
+
+    public void StopTailAttack()
+    {
+        tail.GetComponent<LimbAttack>().canDamage = false;
+    }
+
     public void StopAttack()
     {
         if (level <= 2)
         {
-            head.GetComponent<Bite>().canBite = false;
+            head.GetComponent<LimbAttack>().canDamage = false;
         }
         else
         {
@@ -228,16 +254,30 @@ public class DragonState : MonoBehaviour
 
     public void Move()
     {
+        // var direction = Input.GetAxis("Vertical");
+        // gameObject.GetComponent<Rigidbody2D>().velocity =
+        //     gameObject.transform.TransformDirection(new Vector2(0, direction) * speed * Time.deltaTime);
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(Vector2.up * speed * Time.deltaTime);
+            // gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * Time.deltaTime * 100, ForceMode2D.Impulse);
+            gameObject.GetComponent<Rigidbody2D>().velocity =
+                gameObject.transform.TransformDirection(Vector2.up * speed * Time.deltaTime);
+            // var a = gameObject.transform.TransformDirection(Vector2.up);
+            // transform.Translate(Vector2.up * speed * Time.deltaTime);
+            // transform.Translate(Vector2.up * speed * Time.deltaTime);
             LooseStamina(moveStaminaCost * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector2.down * speed * Time.deltaTime / 3);
+            gameObject.GetComponent<Rigidbody2D>().velocity =
+                gameObject.transform.TransformDirection(Vector2.down * speed / 3 * Time.deltaTime);
+            // transform.Translate(Vector2.down * speed * Time.deltaTime / 3);
             LooseStamina(moveStaminaCost * Time.deltaTime);
+        }
+        else
+        {
+            gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
     }
 
@@ -305,6 +345,16 @@ public class DragonState : MonoBehaviour
             LooseStamina(attackStaminaCost);
             timeToAttack = attackCooldown;
             anim.SetTrigger(attackTrigger);
+        }
+    }
+
+    public void TailAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.A) && CanTailAttack(attackStaminaCost))
+        {
+            LooseStamina(attackStaminaCost);
+            timeToTailAttack = tailAttackCooldown;
+            anim.SetTrigger(tailAttackTrigger);
         }
     }
 
@@ -393,6 +443,15 @@ public class DragonState : MonoBehaviour
             experience -= 200;
             gameObject.transform.localScale = new Vector3(1, 1, 0);
             tail.transform.localScale = new Vector3(1, 4, 1);
+            fireball = (GameObject)Resources.Load("FireBreath");
+        }
+
+        if (nextLevel == 5)
+        {
+            UpgradeCharacterPoints();
+            level = nextLevel;
+            experience -= 500;
+            tail.transform.localScale = new Vector3(1.4f, 6, 1);
         }
 
         FullRestore();

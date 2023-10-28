@@ -23,7 +23,7 @@ public class EnemyBody : MonoBehaviour
             touchCamera = true;
         }
     }
-
+    
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("MainCamera"))
@@ -31,4 +31,19 @@ public class EnemyBody : MonoBehaviour
             touchCamera = false;
         }
     }
+    // private void OnCollisionEnter2D(Collision2D other)
+    // {
+    //     if (other.gameObject.CompareTag("MainCamera"))
+    //     {
+    //         touchCamera = true;
+    //     }
+    // }
+    //
+    // private void OnCollisionExit2D(Collision2D other)
+    // {
+    //     if (other.gameObject.CompareTag("MainCamera"))
+    //     {
+    //         touchCamera = false;
+    //     }
+    // }
 }

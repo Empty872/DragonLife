@@ -183,7 +183,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Golem
+  m_Name: SuperGolem
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Attack
@@ -232,7 +232,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: b499110296d213e4c98ca810a7166500, type: 2}
+  m_Motion: {fileID: 7400000, guid: a8c19a84d32f6fc4c98077abbb0d24d7, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

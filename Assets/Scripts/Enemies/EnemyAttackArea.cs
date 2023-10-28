@@ -31,4 +31,22 @@ public class EnemyAttackArea : MonoBehaviour
             touchPlayer = false;
         }
     }
+
+    // private void OnCollisionEnter2D(Collision2D other)
+    // {
+    //     if (other.gameObject.CompareTag("HitBox"))
+    //     {
+    //         touchPlayer = true;
+    //     }
+    //
+    //     Debug.Log(other.gameObject);
+    // }
+    //
+    // private void OnCollisionExit2D(Collision2D other)
+    // {
+    //     if (other.gameObject.CompareTag("HitBox"))
+    //     {
+    //         touchPlayer = false;
+    //     }
+    // }
 }

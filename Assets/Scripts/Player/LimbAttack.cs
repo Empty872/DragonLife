@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Bite : MonoBehaviour
+public class LimbAttack : MonoBehaviour
 {
     // Start is called before the first frame update
     public int damage;
-    public bool canBite;
+    public bool canDamage;
 
     void Start()
     {
@@ -20,10 +21,10 @@ public class Bite : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("EnemyHitBox") && canBite)
+        if (other.CompareTag("EnemyHitBox") && canDamage)
         {
             Attack(other.gameObject, damage);
-            canBite = false;
+            canDamage = false;
         }
     }
 

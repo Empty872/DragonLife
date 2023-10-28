@@ -20,9 +20,11 @@ public class EnemyState : MonoBehaviour
     public EnemyAttackArea attackArea;
     public EnemyBody enemyBody;
     public DifferentAttacks differentAttacks;
+    public Rigidbody2D rigidbody;
 
     void Start()
     {
+        // rigidbody = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -42,6 +44,11 @@ public class EnemyState : MonoBehaviour
         {
             Move();
         }
+        else
+        {
+            rigidbody.velocity = Vector2.zero;
+            ;
+        }
 
         Attack();
     }
@@ -50,7 +57,19 @@ public class EnemyState : MonoBehaviour
     {
         var pos = transform.position;
         var difference = ((Vector2)player.transform.position - (Vector2)pos).normalized;
-        transform.position += new Vector3(difference.x, difference.y, 0) * speed * Time.deltaTime;
+        // transform.position +=
+        //     new Vector3(difference.x, difference.y, 0) * speed * Time.deltaTime;
+        // transform.Translate(difference * speed * Time.deltaTime, Space.World);
+        // transform.Translate();
+        // Debug.Log(difference);
+        rigidbody.velocity = difference * speed * Time.deltaTime;
+        // transform.TransformDirection(difference * speed * Time.deltaTime);
+        // Debug.Log(rigidbody.velocity);
+        // gameObject.GetComponentInParent<Transform>().position = rigidbody.gameObject.transform.position;
+        // Debug.Log(transform.position);
+
+        // rigidbody.velocity = Vector2.left;
+        // gameObject.transform.Translate(rigidbody.velocity);
     }
 
     public void Attack()
@@ -66,7 +85,7 @@ public class EnemyState : MonoBehaviour
     {
         player.GetComponent<DragonState>().TakeDamage(damage);
     }
-    
+
     public void TakeDamage(float damage)
     {
         anim.SetTrigger(TakeDamageAnim);
