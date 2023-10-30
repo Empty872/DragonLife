@@ -100,10 +100,7 @@ public class DragonState : MonoBehaviour
         RestoreStamina(staminaPointsRestore);
         RestoreMana(manaPointsRestore);
         LookAtMouse();
-        if (CanMove())
-        {
-            Move();
-        }
+        Move();
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -262,7 +259,7 @@ public class DragonState : MonoBehaviour
         // var direction = Input.GetAxis("Vertical");
         // gameObject.GetComponent<Rigidbody2D>().velocity =
         //     gameObject.transform.TransformDirection(new Vector2(0, direction) * speed * Time.deltaTime);
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && CanMove())
         {
             // gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * Time.deltaTime * 100, ForceMode2D.Impulse);
             gameObject.GetComponent<Rigidbody2D>().velocity =
@@ -273,7 +270,7 @@ public class DragonState : MonoBehaviour
             LooseStamina(moveStaminaCost * Time.deltaTime);
         }
 
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S) && CanMove())
         {
             gameObject.GetComponent<Rigidbody2D>().velocity =
                 gameObject.transform.TransformDirection(Vector2.down * speed / 3 * Time.deltaTime);
@@ -440,6 +437,7 @@ public class DragonState : MonoBehaviour
             fireballPosition.transform.localPosition = new Vector3(0, 3.3f, 0);
             attackTrigger = Animator.StringToHash("Attack3Trigger");
             camera.orthographicSize = 6;
+            camera.gameObject.GetComponent<BoxCollider2D>().size = new Vector2(21.6f, 12);
         }
 
         if (nextLevel == 4)
@@ -451,6 +449,7 @@ public class DragonState : MonoBehaviour
             tail.transform.localScale = new Vector3(1, 4, 1);
             fireball = (GameObject)Resources.Load("FireBreath");
             camera.orthographicSize = 10;
+            camera.gameObject.GetComponent<BoxCollider2D>().size = new Vector2(36, 20);
         }
 
         if (nextLevel == 5)
