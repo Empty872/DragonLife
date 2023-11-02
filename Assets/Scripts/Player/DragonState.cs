@@ -67,10 +67,10 @@ public class DragonState : MonoBehaviour
 
     void Start()
     {
-        // LevelUp(2);
-        // LevelUp(3);
-        // LevelUp(4);
-        // LevelUp(5);
+        LevelUp(2);
+        LevelUp(3);
+        LevelUp(4);
+        LevelUp(5);
     }
 
     // Update is called once per frame
